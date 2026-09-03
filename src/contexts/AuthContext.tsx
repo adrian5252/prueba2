@@ -4,7 +4,7 @@ export interface User {
   id: string;
   name: string;
   email: string;
-  role: 'admin' | 'pedagogia' | 'psicologia' | 'nutricion' | 'trabajo-social' | 'general';
+  role: 'admin' | 'maestra-etapa1' | 'maestra-etapa2' | 'maestra-etapa3' | 'pedagogia' | 'psicologia' | 'nutricion' | 'trabajo-social';
 }
 
 interface AuthContextProps {
@@ -33,7 +33,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Simulate checking auth from localStorage
     const stored = localStorage.getItem('edugest-user');
     if (stored) {
       try {
@@ -46,15 +45,15 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   }, []);
 
   const login = async (email: string, password: string) => {
-    // Simulate API call
-    // For demo, we'll hardcode some users
     const users: Record<string, { password: string; user: User }> = {
       'admin@colegio.edu': { password: 'admin123', user: { id: '1', name: 'Administrador', email: 'admin@colegio.edu', role: 'admin' } },
-      'pedagogia@colegio.edu': { password: 'pedago123', user: { id: '2', name: 'Pedagogo', email: 'pedagogia@colegio.edu', role: 'pedagogia' } },
-      'psicologia@colegio.edu': { password: 'psico123', user: { id: '3', name: 'Psicólogo', email: 'psicologia@colegio.edu', role: 'psicologia' } },
-      'nutricion@colegio.edu': { password: 'nutri123', user: { id: '4', name: 'Nutricionista', email: 'nutricion@colegio.edu', role: 'nutricion' } },
-      'trabajosocial@colegio.edu': { password: 'ts123', user: { id: '5', name: 'Trabajador Social', email: 'trabajosocial@colegio.edu', role: 'trabajo-social' } },
-      'general@colegio.edu': { password: 'general123', user: { id: '6', name: 'Personal General', email: 'general@colegio.edu', role: 'general' } },
+      'maestra1@colegio.edu': { password: 'etapa123', user: { id: '2', name: 'Maestra Etapa I', email: 'maestra1@colegio.edu', role: 'maestra-etapa1' } },
+      'maestra2@colegio.edu': { password: 'etapa123', user: { id: '3', name: 'Maestra Etapa II', email: 'maestra2@colegio.edu', role: 'maestra-etapa2' } },
+      'maestra3@colegio.edu': { password: 'etapa123', user: { id: '4', name: 'Maestra Etapa III', email: 'maestra3@colegio.edu', role: 'maestra-etapa3' } },
+      'pedagogia@colegio.edu': { password: 'pedago123', user: { id: '5', name: 'Pedagogo', email: 'pedagogia@colegio.edu', role: 'pedagogia' } },
+      'psicologia@colegio.edu': { password: 'psico123', user: { id: '6', name: 'Psicólogo', email: 'psicologia@colegio.edu', role: 'psicologia' } },
+      'nutricion@colegio.edu': { password: 'nutri123', user: { id: '7', name: 'Nutricionista', email: 'nutricion@colegio.edu', role: 'nutricion' } },
+      'trabajosocial@colegio.edu': { password: 'ts123', user: { id: '8', name: 'Trabajador Social', email: 'trabajosocial@colegio.edu', role: 'trabajo-social' } },
     };
 
     const u = users[email];
@@ -72,7 +71,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   };
 
   if (loading) {
-    return null; // or show a loading spinner
+    return null;
   }
 
   return (

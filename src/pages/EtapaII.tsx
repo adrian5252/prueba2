@@ -3,26 +3,30 @@ import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
-import { Search } from "lucide-react";
-import { BookOpen, Users, UserPlus } from "lucide-react";
+import { Search, BookOpen, Users, UserPlus } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
 
 const mockStudents = [
-  { id: 1, code: "A001", name: "Ana García López", grade: "1ro", section: "A", stage: "Cognitiva", status: "Activo" },
-  { id: 2, code: "A002", name: "Luis Martínez Pérez", grade: "2do", section: "B", stage: "Cognitiva", status: "Activo" },
-  { id: 3, code: "A003", name: "Sofía Rodríguez Silva", grade: "3ro", section: "A", stage: "Cognitiva", status: "Activo" },
-  { id: 4, code: "A004", name: "Diego Fernández Ruiz", grade: "1ro", section: "C", stage: "Cognitiva", status: "Inactivo" },
-  { id: 5, code: "A005", name: "Valentina Gómez Díaz", grade: "2do", section: "A", stage: "Cognitiva", status: "Activo" },
-  { id: 6, code: "B001", name: "Pedro López Hernández", grade: "4ro", section: "A", stage: "II", status: "Activo" },
-  { id: 7, code: "B002", name: "Lucía Méndez Torres", grade: "5to", section: "B", stage: "II", status: "Activo" },
-  { id: 8, code: "B003", name: "Mateo Rojas Silva", grade: "4ro", section: "C", stage: "II", status: "Inactivo" },
+  { id: 1, code: "A001", name: "Ana García López", grade: "1ro", section: "A", stage: "Etapa I", status: "Activo" },
+  { id: 2, code: "A002", name: "Luis Martínez Pérez", grade: "1ro", section: "B", stage: "Etapa I", status: "Activo" },
+  { id: 3, code: "A003", name: "Sofía Rodríguez Silva", grade: "1ro", section: "A", stage: "Etapa I", status: "Activo" },
+  { id: 4, code: "A004", name: "Diego Fernández Ruiz", grade: "1ro", section: "C", stage: "Etapa I", status: "Inactivo" },
+  { id: 5, code: "A005", name: "Valentina Gómez Díaz", grade: "1ro", section: "A", stage: "Etapa I", status: "Activo" },
+  { id: 6, code: "B001", name: "Pedro López Hernández", grade: "2do", section: "A", stage: "Etapa II", status: "Activo" },
+  { id: 7, code: "B002", name: "Lucía Méndez Torres", grade: "2do", section: "B", stage: "Etapa II", status: "Activo" },
+  { id: 8, code: "B003", name: "Mateo Rojas Silva", grade: "2do", section: "C", stage: "Etapa II", status: "Inactivo" },
+  { id: 9, code: "C001", name: "Camila Torres Vega", grade: "3ro", section: "A", stage: "Etapa III", status: "Activo" },
+  { id: 10, code: "C002", name: "Andrés Ramírez Castro", grade: "3ro", section: "B", stage: "Etapa III", status: "Activo" },
+  { id: 11, code: "C003", name: "Isabella Morales Ríos", grade: "3ro", section: "A", stage: "Etapa III", status: "Activo" },
 ];
 
 export default function EtapaII() {
   const [search, setSearch] = useState("");
-  const [filteredStudents, setFilteredStudents] = useState(mockStudents.filter(s => s.stage === "II"));
+  const [filteredStudents, setFilteredStudents] = useState(mockStudents.filter(s => s.stage === "Etapa II"));
+  const { user } = useAuth();
 
   useEffect(() => {
-    const stageFiltered = mockStudents.filter(s => s.stage === "II");
+    const stageFiltered = mockStudents.filter(s => s.stage === "Etapa II");
     const results = stageFiltered.filter(
       (s) =>
         s.name.toLowerCase().includes(search.toLowerCase()) ||
@@ -39,6 +43,11 @@ export default function EtapaII() {
         <CardTitle className="text-xl font-bold flex items-center">
           <BookOpen className="mr-2 h-5 w-5" />
           Etapa II
+          {user?.role === "maestra-etapa2" && (
+            <span className="ml-auto text-sm font-normal text-gray-500">
+              (Sesión como: {user.name})
+            </span>
+          )}
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">

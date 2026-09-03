@@ -8,14 +8,17 @@ import { useState } from "react";
 
 // Mock data for all students (combined)
 const allStudents = [
-  { id: 1, code: "A001", name: "Ana García López", grade: "1ro", section: "A", stage: "Cognitiva", status: "Activo", birthDate: "2018-05-14", phone: "+56 9 1234 5678", email: "ana.garcia@colegio.edu", siblingCodes: ["A002"] },
-  { id: 2, code: "A002", name: "Luis Martínez Pérez", grade: "2do", section: "B", stage: "Cognitiva", status: "Activo", birthDate: "2017-09-22", phone: "+56 9 2345 6789", email: "luis.martinez@colegio.edu", siblingCodes: ["A001"] },
-  { id: 3, code: "A003", name: "Sofía Rodríguez Silva", grade: "3ro", section: "A", stage: "Cognitiva", status: "Activo", birthDate: "2016-03-08", phone: "+56 9 3456 7890", email: "sofia.rodriguez@colegio.edu", siblingCodes: [] },
-  { id: 4, code: "A004", name: "Diego Fernández Ruiz", grade: "1ro", section: "C", stage: "Cognitiva", status: "Inactivo", birthDate: "2018-11-30", phone: "+56 9 4567 8901", email: "diego.fernandez@colegio.edu", siblingCodes: [] },
-  { id: 5, code: "A005", name: "Valentina Gómez Díaz", grade: "2do", section: "A", stage: "Cognitiva", status: "Activo", birthDate: "2017-07-19", phone: "+56 9 5678 9012", email: "valentina.gomez@colegio.edu", siblingCodes: [] },
-  { id: 6, code: "B001", name: "Pedro López Hernández", grade: "4ro", section: "A", stage: "II", status: "Activo", birthDate: "2015-01-22", phone: "+56 9 6789 0123", email: "pedro.lopez@colegio.edu", siblingCodes: [] },
-  { id: 7, code: "B002", name: "Lucía Méndez Torres", grade: "5to", section: "B", stage: "II", status: "Activo", birthDate: "2014-08-14", phone: "+56 9 7890 1234", email: "lucia.mendez@colegio.edu", siblingCodes: [] },
-  { id: 8, code: "B003", name: "Mateo Rojas Silva", grade: "4ro", section: "C", stage: "II", status: "Inactivo", birthDate: "2015-12-05", phone: "+56 9 8901 2345", email: "mateo.rojas@colegio.edu", siblingCodes: [] },
+  { id: 1, code: "A001", name: "Ana García López", grade: "1ro", section: "A", stage: "Etapa I", status: "Activo", birthDate: "2018-05-14", phone: "+56 9 1234 5678", email: "ana.garcia@colegio.edu", siblingCodes: ["A002"] },
+  { id: 2, code: "A002", name: "Luis Martínez Pérez", grade: "1ro", section: "B", stage: "Etapa I", status: "Activo", birthDate: "2017-09-22", phone: "+56 9 2345 6789", email: "luis.martinez@colegio.edu", siblingCodes: ["A001"] },
+  { id: 3, code: "A003", name: "Sofía Rodríguez Silva", grade: "1ro", section: "A", stage: "Etapa I", status: "Activo", birthDate: "2016-03-08", phone: "+56 9 3456 7890", email: "sofia.rodriguez@colegio.edu", siblingCodes: [] },
+  { id: 4, code: "A004", name: "Diego Fernández Ruiz", grade: "1ro", section: "C", stage: "Etapa I", status: "Inactivo", birthDate: "2018-11-30", phone: "+56 9 4567 8901", email: "diego.fernandez@colegio.edu", siblingCodes: [] },
+  { id: 5, code: "A005", name: "Valentina Gómez Díaz", grade: "1ro", section: "A", stage: "Etapa I", status: "Activo", birthDate: "2017-07-19", phone: "+56 9 5678 9012", email: "valentina.gomez@colegio.edu", siblingCodes: [] },
+  { id: 6, code: "B001", name: "Pedro López Hernández", grade: "2do", section: "A", stage: "Etapa II", status: "Activo", birthDate: "2015-01-22", phone: "+56 9 6789 0123", email: "pedro.lopez@colegio.edu", siblingCodes: [] },
+  { id: 7, code: "B002", name: "Lucía Méndez Torres", grade: "2do", section: "B", stage: "Etapa II", status: "Activo", birthDate: "2014-08-14", phone: "+56 9 7890 1234", email: "lucia.mendez@colegio.edu", siblingCodes: [] },
+  { id: 8, code: "B003", name: "Mateo Rojas Silva", grade: "2do", section: "C", stage: "Etapa II", status: "Inactivo", birthDate: "2015-12-05", phone: "+56 9 8901 2345", email: "mateo.rojas@colegio.edu", siblingCodes: [] },
+  { id: 9, code: "C001", name: "Camila Torres Vega", grade: "3ro", section: "A", stage: "Etapa III", status: "Activo", birthDate: "2012-03-15", phone: "+56 9 1234 5678", email: "camila.torres@colegio.edu", siblingCodes: [] },
+  { id: 10, code: "C002", name: "Andrés Ramírez Castro", grade: "3ro", section: "B", stage: "Etapa III", status: "Activo", birthDate: "2012-07-22", phone: "+56 9 2345 6789", email: "andres.ramirez@colegio.edu", siblingCodes: [] },
+  { id: 11, code: "C003", name: "Isabella Morales Ríos", grade: "3ro", section: "A", stage: "Etapa III", status: "Activo", birthDate: "2012-11-08", phone: "+56 9 3456 7890", email: "isabella.morales@colegio.edu", siblingCodes: [] },
 ];
 
 // Mock data for tabs content

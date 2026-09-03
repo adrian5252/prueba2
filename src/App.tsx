@@ -16,6 +16,7 @@ import { Layout } from "./components/Layout";
 import Alumnos from "./pages/Alumnos";
 import EtapaCognitiva from "./pages/EtapaCognitiva";
 import EtapaII from "./pages/EtapaII";
+import EtapaIII from "./pages/EtapaIII";
 import Expediente from "./pages/Expediente";
 import Pedagogia from "./pages/Pedagogia";
 import Psicologia from "./pages/Psicologia";
@@ -47,8 +48,9 @@ const App = () => (
           <Route element={<RequireAuth><Layout /></RequireAuth>}>
             <Route index element={<Index />} />
             <Route path="alumnos" element={<Alumnos />} />
-            <Route path="etapa-cognitiva" element={<EtapaCognitiva />} />
-            <Route path="etapa-ii" element={<EtapaII />} />
+            <Route path="etapa-1" element={<EtapaCognitiva />} />
+            <Route path="etapa-2" element={<EtapaII />} />
+            <Route path="etapa-3" element={<EtapaIII />} />
             <Route path="expediente/:studentId" element={<Expediente />} />
             <Route path="pedagogia" element={<Pedagogia />} />
             <Route path="psicologia" element={<Psicologia />} />

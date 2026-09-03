@@ -20,13 +20,13 @@ const mockStudents = [
   { id: 11, code: "C003", name: "Isabella Morales Ríos", grade: "3ro", section: "A", stage: "Etapa III", status: "Activo" },
 ];
 
-export default function EtapaCognitiva() {
+export default function EtapaIII() {
   const [search, setSearch] = useState("");
-  const [filteredStudents, setFilteredStudents] = useState(mockStudents.filter(s => s.stage === "Etapa I"));
+  const [filteredStudents, setFilteredStudents] = useState(mockStudents.filter(s => s.stage === "Etapa III"));
   const { user } = useAuth();
 
   useEffect(() => {
-    const stageFiltered = mockStudents.filter(s => s.stage === "Etapa I");
+    const stageFiltered = mockStudents.filter(s => s.stage === "Etapa III");
     const results = stageFiltered.filter(
       (s) =>
         s.name.toLowerCase().includes(search.toLowerCase()) ||
@@ -42,8 +42,8 @@ export default function EtapaCognitiva() {
       <CardHeader className="pb-4">
         <CardTitle className="text-xl font-bold flex items-center">
           <BookOpen className="mr-2 h-5 w-5" />
-          Etapa I
-          {user?.role === "maestra-etapa1" && (
+          Etapa III
+          {user?.role === "maestra-etapa3" && (
             <span className="ml-auto text-sm font-normal text-gray-500">
               (Sesión como: {user.name})
             </span>
@@ -75,7 +75,7 @@ export default function EtapaCognitiva() {
             {filteredStudents.length === 0 ? (
               <TableRow>
                 <TableCell colSpan={6} className="text-center py-4 text-gray-500">
-                  No se encontraron alumnos en Etapa I
+                  No se encontraron alumnos en Etapa III
                 </TableCell>
               </TableRow>
             ) : (

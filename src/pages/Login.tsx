@@ -29,8 +29,8 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <Card className="w-full max-w-sm">
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4">
+      <Card className="w-full max-w-md">
         <CardHeader className="pb-6">
           <CardTitle className="text-center text-2xl font-bold">
             EduGest - Inicio de Sesión
@@ -70,10 +70,20 @@ export default function Login() {
             </Button>
           </form>
         </CardContent>
-        <CardFooter className="text-center text-sm text-muted-foreground">
-          <p>
-            Usuario de prueba: admin@colegio.edu / admin123
+        <CardFooter className="block">
+          <p className="text-center text-sm text-muted-foreground font-medium mb-2">
+            Usuarios de prueba:
           </p>
+          <div className="text-xs text-muted-foreground space-y-1 bg-gray-50 p-3 rounded">
+            <p><strong>Admin:</strong> admin@colegio.edu / admin123</p>
+            <p><strong>Maestra Etapa I:</strong> maestra1@colegio.edu / etapa123</p>
+            <p><strong>Maestra Etapa II:</strong> maestra2@colegio.edu / etapa123</p>
+            <p><strong>Maestra Etapa III:</strong> maestra3@colegio.edu / etapa123</p>
+            <p><strong>Pedagogía:</strong> pedagogia@colegio.edu / pedago123</p>
+            <p><strong>Psicología:</strong> psicologia@colegio.edu / psico123</p>
+            <p><strong>Nutrición:</strong> nutricion@colegio.edu / nutri123</p>
+            <p><strong>Trabajo Social:</strong> trabajosocial@colegio.edu / ts123</p>
+          </div>
         </CardFooter>
       </Card>
     </div>
