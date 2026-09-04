@@ -353,7 +353,7 @@ export default function Administracion() {
         </Tabs>
       </CardContent>
 
-      {/* User Modal */}
+      {showUserModal && (
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
         <div className="relative w-full max-w-md max-h-[90vh] overflow-y-auto">
           <div className="bg-white rounded-lg p-6 shadow-lg">
@@ -444,8 +444,9 @@ export default function Administracion() {
           </div>
         </div>
       </div>
+      )}
 
-      {/* Role Modal */}
+      {showRoleModal && (
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
         <div className="relative w-full max-w-md max-h-[90vh] overflow-y-auto">
           <div className="bg-white rounded-lg p-6 shadow-lg">
@@ -514,6 +515,7 @@ export default function Administracion() {
           </div>
         </div>
       </div>
+      )}
     </Card>
   );
 }

@@ -757,7 +757,12 @@ export default function Expediente() {
       </div>
 
       {showHermanosModal && hermanosData.length > 0 && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) setShowHermanosModal(false);
+          }}
+        >
           <div className="relative w-full max-w-md max-h-[90vh] overflow-y-auto bg-white rounded-lg p-6 shadow-lg">
             <div className="flex justify-between items-start mb-4">
               <h2 className="text-xl font-bold">Hermanos Registrados</h2>
@@ -820,7 +825,12 @@ export default function Expediente() {
       )}
 
       {showDocumentModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) setShowDocumentModal(false);
+          }}
+        >
           <div className="relative w-full max-w-md bg-white rounded-lg p-6 shadow-lg">
             <div className="flex justify-between items-start mb-4">
               <h2 className="text-xl font-bold">Subir Documento</h2>
