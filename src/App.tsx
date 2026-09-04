@@ -26,6 +26,8 @@ import Conducta from "./pages/Conducta";
 import General from "./pages/General";
 import Formatos from "./pages/Formatos";
 import Administracion from "./pages/Administracion";
+import Perfil from "./pages/Perfil";
+import Ayuda from "./pages/Ayuda";
 
 const queryClient = new QueryClient();
 
@@ -60,6 +62,8 @@ const App = () => (
             <Route path="general" element={<General />} />
             <Route path="formatos" element={<Formatos />} />
             <Route path="administracion" element={<Administracion />} />
+            <Route path="perfil" element={<Perfil />} />
+            <Route path="ayuda" element={<Ayuda />} />
             <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>

@@ -1,17 +1,24 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-
-export interface User {
-  id: string;
-  name: string;
-  email: string;
-  role: 'admin' | 'maestra-etapa1' | 'maestra-etapa2' | 'maestra-etapa3' | 'pedagogia' | 'psicologia' | 'nutricion' | 'trabajo-social';
-}
+import {
+  initializeData,
+  getCurrentUser,
+  setCurrentUser,
+  getUsers,
+  updateUser,
+  canAccessStage,
+  canManageUsers,
+  User,
+} from '@/lib/dataStore';
 
 interface AuthContextProps {
   user: User | null;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
   isAuthenticated: boolean;
+  updateProfile: (updates: Partial<User>) => void;
+  changePassword: (currentPassword: string, newPassword: string) => Promise<void>;
+  canAccessStage: (stage: string) => boolean;
+  canManageUsers: () => boolean;
 }
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
@@ -24,58 +31,97 @@ export const useAuth = () => {
   return context;
 };
 
-interface AuthProviderProps {
-  children: React.ReactNode;
-}
-
-export const AuthProvider = ({ children }: AuthProviderProps) => {
+export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const stored = localStorage.getItem('edugest-user');
+    initializeData();
+    const stored = getCurrentUser();
     if (stored) {
-      try {
-        setUser(JSON.parse(stored));
-      } catch {
-        // ignore
+      // Verificar que el usuario aún existe y está activo
+      const users = getUsers();
+      const freshUser = users.find(u => u.id === stored.id);
+      if (freshUser && freshUser.status === 'Activo') {
+        setUser(freshUser);
+        setCurrentUser(freshUser);
+      } else {
+        setCurrentUser(null);
       }
     }
     setLoading(false);
   }, []);
 
   const login = async (email: string, password: string) => {
-    const users: Record<string, { password: string; user: User }> = {
-      'admin@colegio.edu': { password: 'admin123', user: { id: '1', name: 'Administrador', email: 'admin@colegio.edu', role: 'admin' } },
-      'maestra1@colegio.edu': { password: 'etapa123', user: { id: '2', name: 'Maestra Etapa I', email: 'maestra1@colegio.edu', role: 'maestra-etapa1' } },
-      'maestra2@colegio.edu': { password: 'etapa123', user: { id: '3', name: 'Maestra Etapa II', email: 'maestra2@colegio.edu', role: 'maestra-etapa2' } },
-      'maestra3@colegio.edu': { password: 'etapa123', user: { id: '4', name: 'Maestra Etapa III', email: 'maestra3@colegio.edu', role: 'maestra-etapa3' } },
-      'pedagogia@colegio.edu': { password: 'pedago123', user: { id: '5', name: 'Pedagogo', email: 'pedagogia@colegio.edu', role: 'pedagogia' } },
-      'psicologia@colegio.edu': { password: 'psico123', user: { id: '6', name: 'Psicólogo', email: 'psicologia@colegio.edu', role: 'psicologia' } },
-      'nutricion@colegio.edu': { password: 'nutri123', user: { id: '7', name: 'Nutricionista', email: 'nutricion@colegio.edu', role: 'nutricion' } },
-      'trabajosocial@colegio.edu': { password: 'ts123', user: { id: '8', name: 'Trabajador Social', email: 'trabajosocial@colegio.edu', role: 'trabajo-social' } },
-    };
+    const users = getUsers();
+    const found = users.find(u => u.email === email && u.password === password);
 
-    const u = users[email];
-    if (!u || u.password !== password) {
+    if (!found) {
       throw new Error('Credenciales inválidas');
     }
-    setUser(u.user);
-    localStorage.setItem('edugest-user', JSON.stringify(u.user));
+    if (found.status === 'Deshabilitado') {
+      throw new Error('Su cuenta ha sido deshabilitada. Contacte al administrador.');
+    }
+
+    // Actualizar último login
+    const updated: User = {
+      ...found,
+      lastLogin: new Date().toISOString().replace('T', ' ').slice(0, 16),
+    };
+    updateUser(updated);
+    setUser(updated);
+    setCurrentUser(updated);
   };
 
   const logout = () => {
     setUser(null);
-    localStorage.removeItem('edugest-user');
+    setCurrentUser(null);
     window.location.href = '/login';
   };
 
+  const updateProfile = (updates: Partial<User>) => {
+    if (!user) return;
+    const updated: User = { ...user, ...updates };
+    updateUser(updated);
+    setUser(updated);
+    setCurrentUser(updated);
+  };
+
+  const changePassword = async (currentPassword: string, newPassword: string) => {
+    if (!user) throw new Error('No hay sesión activa');
+    if (user.password !== currentPassword) {
+      throw new Error('La contraseña actual es incorrecta');
+    }
+    if (newPassword.length < 6) {
+      throw new Error('La nueva contraseña debe tener al menos 6 caracteres');
+    }
+    const updated: User = { ...user, password: newPassword };
+    updateUser(updated);
+    setUser(updated);
+    setCurrentUser(updated);
+  };
+
   if (loading) {
-    return null;
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="text-gray-600">Cargando...</div>
+      </div>
+    );
   }
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, isAuthenticated: !!user }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        login,
+        logout,
+        isAuthenticated: !!user,
+        updateProfile,
+        changePassword,
+        canAccessStage: (stage: string) => canAccessStage(user, stage),
+        canManageUsers: () => canManageUsers(user),
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
